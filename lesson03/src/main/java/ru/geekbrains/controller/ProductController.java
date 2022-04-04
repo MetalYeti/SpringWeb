@@ -41,15 +41,13 @@ public class ProductController {
 
     @GetMapping("/new")
     public String form(Model model) {
-        Product product = new Product();
-        productRepository.create(product);
-        model.addAttribute("product", product);
+        model.addAttribute("product", new Product("", 0));
         return "product_form";
     }
 
     @PostMapping
     public String save(Product product) {
-        productRepository.update(product);
+        productRepository.save(product);
         return "redirect:/product";
     }
 }
