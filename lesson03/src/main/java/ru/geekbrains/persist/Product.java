@@ -4,11 +4,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Product {
-    private long id;
+    private Long id;
     private String title;
     private long cost;
 
-    public Product(long id, String title, long cost) {
+    public Product(Long id, String title, long cost) {
         this.id = id;
         this.title = title;
         this.cost = cost;
@@ -19,13 +19,13 @@ public class Product {
         this.cost = cost;
     }
 
-    public Product() {}
+    public Product(){}
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
