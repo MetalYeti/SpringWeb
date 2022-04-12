@@ -11,11 +11,14 @@
     <modules>
         <module>lesson01</module>
         <module>lesson02</module>
+        <module>lesson03</module>
+        <module>lesson04</module>
     </modules>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <spring.version>5.3.17</spring.version>
         <packaging>pom</packaging>
     </properties>
 
