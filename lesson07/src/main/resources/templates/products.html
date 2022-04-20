@@ -79,6 +79,28 @@
                 </tbody>
             </table>
         </div>
+        <div th:unless="${products.isEmpty()}" class="col-12">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li th:classappend="${products.number + 1 == 1} ? 'disabled'" class="page-item">
+                        <a class="page-link" th:href="@{/products(page=${products.number}, size=${products.size}, minCost=${param.minCost}, maxCost=${param.maxCost})}" tabindex="-1">Previous</a>
+                    </li>
+
+                    <li th:each="num : ${#numbers.sequence(1, products.totalPages)}"
+                        th:classappend="${num == products.number + 1} ? 'active'"
+                        class="page-item">
+                        <a class="page-link" th:href="@{'/products'(page=${num}, size=${products.size},minCost=${param.minCost}, maxCost=${param.maxCost})}">[[${num}]]
+                            <span th:if="${num == products.number + 1}" class="sr-only">(current)</span>
+                        </a>
+                    </li>
+
+                    <li th:classappend="${products.number + 1 == products.totalPages} ? 'disabled'" class="page-item">
+                        <a class="page-link" th:href="@{/products(page=${products.number + 2}, size=${products.size}, minCost=${param.minCost}, maxCost=${param.maxCost})}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
     </div>
 </div>
 

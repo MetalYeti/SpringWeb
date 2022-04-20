@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.geekbrains.persist.Product;
-import ru.geekbrains.persist.ProductRepository;
+import ru.geekbrains.dto.ProductDto;
+import ru.geekbrains.service.ProductService;
 
 import javax.validation.Valid;
 
@@ -14,53 +14,50 @@ import javax.validation.Valid;
 @Controller
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
-    public String listPage(@RequestParam(name = "minCost",required = false) Long minCost, @RequestParam(name = "maxCost",required = false) Long maxCost, Model model) {
-        if (minCost == null && maxCost == null) {
-            model.addAttribute("products", productRepository.findAll());
-        } else {
-            if (minCost == null) {
-                model.addAttribute("products", productRepository.getProductsByCostBefore(maxCost));
-            } else if (maxCost == null) {
-                model.addAttribute("products", productRepository.getProductsByCostAfter(minCost));
-            } else {
-                model.addAttribute("products", productRepository.getProductsByCostBetween(minCost, maxCost));
-            }
-        }
+    public String listPage(
+            @RequestParam(name = "minCost",required = false) Long minCost,
+            @RequestParam(name = "maxCost",required = false) Long maxCost,
+            @RequestParam(name = "page",required = false) Integer page,
+            @RequestParam(name = "size",required = false) Integer size,
+            Model model) {
+        Integer pageValue = page == null ? 0 : page - 1;
+        Integer sizeValue = size == null ? 5 : size;
+        model.addAttribute("products", productService.getProductsByFilter(minCost, maxCost, pageValue, sizeValue));
         return "products";
     }
 
     @GetMapping("/{id}")
     public String form(@PathVariable("id") long id, Model model) {
-        model.addAttribute("product", productRepository.findById(id));
+        model.addAttribute("product", productService.findById(id));
         return "product_form";
     }
 
     @GetMapping("/delete/{id}")
     public String remove(@PathVariable("id") long id) {
-        productRepository.deleteById(id);
+        productService.deleteById(id);
         return "redirect:/products";
     }
 
     @GetMapping("/new")
     public String form(Model model) {
-        model.addAttribute("product", new Product("", 0));
+        model.addAttribute("product", new ProductDto("", 0));
         return "product_form";
     }
 
     @PostMapping
-    public String save(@Valid Product product, BindingResult binding) {
+    public String save(@Valid @ModelAttribute("product") ProductDto product, BindingResult binding) {
         if (binding.hasErrors()) {
             return "product_form";
         }
-        productRepository.save(product);
+        productService.save(product);
         return "redirect:/products";
     }
 }
