@@ -31,7 +31,7 @@ public class ProductController {
             Model model) {
         Integer pageValue = page == null ? 0 : page - 1;
         Integer sizeValue = size == null ? 5 : size;
-        String sortValue = sort == null ? "id" : sort;
+        String sortValue = sort == null || sort.isEmpty() ? "id" : sort;
         model.addAttribute("products", productService.getProductsByFilter(minCost, maxCost, pageValue, sizeValue, sortValue));
         return "products";
     }
