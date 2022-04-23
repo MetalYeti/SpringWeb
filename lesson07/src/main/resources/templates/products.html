@@ -57,9 +57,21 @@
             <table class="table table-bordered my-2">
                 <thead>
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Cost</th>
+                    <th scope="col">Id
+                        <a th:href="@{/products(page=${param.page}, size=${param.size}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField='id')}">
+                            <i class="fa fa-sort-down"></i>
+                        </a>
+                    </th>
+                    <th scope="col">Title
+                        <a th:href="@{/products(page=${param.page}, size=${param.size}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField='title')}">
+                            <i class="fa fa-sort-down"></i>
+                        </a>
+                    </th>
+                    <th scope="col">Cost
+                        <a th:href="@{/products(page=${param.page}, size=${param.size}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField= 'cost')}">
+                            <i class="fa fa-sort-down"></i>
+                        </a>
+                    </th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
@@ -69,8 +81,10 @@
                     <td th:text="${prod.title}">Prod 1</td>
                     <td th:text="${prod.cost}">100</td>
                     <td>
-                        <a class="btn btn-success" th:href="@{/products/{id}(id = ${prod.id})}"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger" th:href="@{/products/delete/{id}(id = ${prod.id})}"><i class="far fa-trash-alt"></i></a>
+                        <a class="btn btn-success" th:href="@{/products/{id}(id = ${prod.id})}"><i
+                                class="fas fa-edit"></i></a>
+                        <a class="btn btn-danger" th:href="@{/products/delete/{id}(id = ${prod.id})}"><i
+                                class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 <tr th:if="${products.isEmpty()}">
@@ -83,19 +97,23 @@
             <nav aria-label="...">
                 <ul class="pagination">
                     <li th:classappend="${products.number + 1 == 1} ? 'disabled'" class="page-item">
-                        <a class="page-link" th:href="@{/products(page=${products.number}, size=${products.size}, minCost=${param.minCost}, maxCost=${param.maxCost})}" tabindex="-1">Previous</a>
+                        <a class="page-link"
+                           th:href="@{/products(page=${products.number}, size=${products.size}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField=${param.sortField})}"
+                           tabindex="-1">Previous</a>
                     </li>
 
                     <li th:each="num : ${#numbers.sequence(1, products.totalPages)}"
                         th:classappend="${num == products.number + 1} ? 'active'"
                         class="page-item">
-                        <a class="page-link" th:href="@{'/products'(page=${num}, size=${products.size},minCost=${param.minCost}, maxCost=${param.maxCost})}">[[${num}]]
+                        <a class="page-link"
+                           th:href="@{'/products'(page=${num}, size=${products.size}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField=${param.sortField})}">[[${num}]]
                             <span th:if="${num == products.number + 1}" class="sr-only">(current)</span>
                         </a>
                     </li>
 
                     <li th:classappend="${products.number + 1 == products.totalPages} ? 'disabled'" class="page-item">
-                        <a class="page-link" th:href="@{/products(page=${products.number + 2}, size=${products.size}, minCost=${param.minCost}, maxCost=${param.maxCost})}">Next</a>
+                        <a class="page-link"
+                           th:href="@{/products(page=${products.number + 2}, size=${products.size}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField=${param.sortField})}">Next</a>
                     </li>
                 </ul>
             </nav>
