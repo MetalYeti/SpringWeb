@@ -27,10 +27,12 @@ public class ProductController {
             @RequestParam(name = "maxCost",required = false) Long maxCost,
             @RequestParam(name = "page",required = false) Integer page,
             @RequestParam(name = "size",required = false) Integer size,
+            @RequestParam(name = "sortField", required = false) String sort,
             Model model) {
         Integer pageValue = page == null ? 0 : page - 1;
         Integer sizeValue = size == null ? 5 : size;
-        model.addAttribute("products", productService.getProductsByFilter(minCost, maxCost, pageValue, sizeValue));
+        String sortValue = sort == null ? "id" : sort;
+        model.addAttribute("products", productService.getProductsByFilter(minCost, maxCost, pageValue, sizeValue, sortValue));
         return "products";
     }
 

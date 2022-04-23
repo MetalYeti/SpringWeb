@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ProductService {
 
-    Page<ProductDto> getProductsByFilter(Long minCost, Long maxCost, Integer page, Integer size);
+    Page<ProductDto> getProductsByFilter(Long minCost, Long maxCost, Integer page, Integer size, String sort);
 
     Optional<ProductDto> findById(long id);
 
