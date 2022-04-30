@@ -52,4 +52,13 @@ public class Product {
     public long getCost() {
         return cost;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", cost=" + cost +
+                '}';
+    }
 }
