@@ -51,4 +51,13 @@ public class ProductDto {
     public long getCost() {
         return cost;
     }
+
+    @Override
+    public String toString() {
+        return "ProductDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", cost=" + cost +
+                '}';
+    }
 }
