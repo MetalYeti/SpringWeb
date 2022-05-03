@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<th th:fragment="sorting (header, column)" scope="col">[[${header}]]
+<th th:fragment="product_sorting (header, column)" scope="col">[[${header}]]
     <a th:href="@{/products(page=${param.page}, size=${param.size}, minCost=${param.minCost}, maxCost=${param.maxCost}, sortField=${column})}">
         <i class="fa fa-sort-down"></i>
     </a>
 </th>
+
+<th th:fragment="user_sorting (header, column)" scope="col">[[${header}]]
+    <a th:href="@{/users(page=${param.page}, size=${param.size}, sortField=${column})}">
+        <i class="fa fa-sort-down"></i>
+    </a>
+</th>
+
 
 </html>

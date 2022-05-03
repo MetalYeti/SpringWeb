@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="/fragments/head.html :: head">
+</head>
+
+<body>
+
+<nav th:replace="/fragments/navi.html :: navi">
+</nav>
+
+<div class="container">
+    <div class="row py-2">
+        <div class="col-12" sec:authorize="hasAnyRole('SUPERADMIN')">
+            <a class="btn btn-primary" th:href="@{/users/new}">Add User</a>
+        </div>
+        <div class="col-12">
+            <table class="table table-bordered my-2">
+                <thead>
+                <tr>
+                    <th scope="col" th:replace="/fragments/sorting_header.html :: user_sorting ('Id', 'id')">
+                    </th>
+                    <th scope="col" th:replace="/fragments/sorting_header.html :: user_sorting ('Name', 'name')">
+                    </th>
+                    <th scope="col" th:replace="/fragments/sorting_header.html :: user_sorting ('Email', 'email')">
+                    </th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <th scope="row" th:text="${user.id}">1</th>
+                    <td th:text="${user.name}">Prod 1</td>
+                    <td th:text="${user.email}">100</td>
+                    <td>
+                        <a class="btn btn-success" th:href="@{/users/{id}(id = ${user.id})}"><i
+                                class="fas fa-edit"></i></a>
+                        <a class="btn btn-danger" th:href="@{/users/delete/{id}(id = ${user.id})}"><i
+                                class="far fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+                <tr th:if="${users.isEmpty()}">
+                    <td colspan="4">No Data</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:unless="${users.isEmpty()}" class="col-12">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li th:classappend="${users.number + 1 == 1} ? 'disabled'" class="page-item">
+                        <a class="page-link"
+                           th:href="@{/users(page=${users.number}, size=${users.size}, sortField=${param.sortField})}"
+                           tabindex="-1">Previous</a>
+                    </li>
+
+                    <li th:each="num : ${#numbers.sequence(1, users.totalPages)}"
+                        th:classappend="${num == users.number + 1} ? 'active'"
+                        class="page-item">
+                        <a class="page-link"
+                           th:href="@{'/users'(page=${num}, size=${users.size}, sortField=${param.sortField})}">[[${num}]]
+                            <span th:if="${num == users.number + 1}" class="sr-only">(current)</span>
+                        </a>
+                    </li>
+
+                    <li th:classappend="${users.number + 1 == users.totalPages} ? 'disabled'" class="page-item">
+                        <a class="page-link"
+                           th:href="@{/users(page=${users.number + 2}, size=${users.size}, sortField=${param.sortField})}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+</div>
+
+<th:block th:replace="/fragments/scripts.html :: scripts">
+</th:block>
+
+</body>
+</html>
